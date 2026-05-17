@@ -9,16 +9,16 @@
 spawn:
   command-enabled: true
   set-command-enabled: true
-  world: world_lobby
-  x: -0.5
+  world: world
+  x: 0.5
   y: 90.0
-  z: -0.5
-  yaw: -0.6054186
-  pitch: -0.21099684
+  z: 0.5
+  yaw: 90
+  pitch: 0
 
 # This world is the scope for all lobby-only features.
 lobby:
-  world: world_lobby
+  world: world
   teleport-on-join: true
   teleport-on-respawn: true
   teleport-on-void: true
