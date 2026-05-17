@@ -7,8 +7,8 @@ import de.maximanu.lobbySystem.menu.ServerSelectorMenu;
 import java.util.Map;
 import java.util.UUID;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent; // Import für ClickEvent
-import net.kyori.adventure.text.format.TextColor; // Import für TextColor
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -79,7 +79,6 @@ public class LobbyPlayerService {
       this.updateDoubleJumpState(player);
    }
 
-   // Feature actions
    public void sendLinks(Player player) {
       if (!this.configService.isLinksEnabled()) {
          this.sendFeatureDisabled(player, "links");
@@ -91,10 +90,10 @@ public class LobbyPlayerService {
       links.forEach((name, url) -> {
          String displayName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-         Component linkComponent = Component.text(displayName, TextColor.color(0x7EE8FA)) // Farbe für den Link-Text
-                                            .clickEvent(ClickEvent.openUrl(url)); // Klick-Event, das die URL öffnet
+         Component linkComponent = Component.text(displayName, TextColor.color(0x7EE8FA))
+                                            .clickEvent(ClickEvent.openUrl(url));
 
-         Component message = Component.text("  ") // Einrückung
+         Component message = Component.text("  ")
                                       .append(Component.text("➤ ", TextColor.color(0x6E6E6E))) // Pfeil-Symbol
                                       .append(linkComponent)
                                       .append(Component.text(": ", TextColor.color(0x6E6E6E))) // Trennzeichen

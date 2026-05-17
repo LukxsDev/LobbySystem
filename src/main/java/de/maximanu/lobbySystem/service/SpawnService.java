@@ -10,8 +10,6 @@ public class SpawnService {
 
    public SpawnService(LobbySystem plugin) {
       this.plugin = plugin;
-      // Spawn location is now loaded when the world is ready.
-      // this.reload(); // Removed this line
    }
 
    /** Saves the given location as the new spawn point. */
