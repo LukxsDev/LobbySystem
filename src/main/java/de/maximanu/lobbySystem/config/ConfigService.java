@@ -384,6 +384,11 @@ public class ConfigService {
       return (String)this.links.getOrDefault(key, fallback);
    }
 
+   // Getter für die Links-Map
+   public Map<String, String> getLinks() {
+      return this.links;
+   }
+
    public void reload() {
       // World scope and feature toggles
       this.spawnWorldName = this.plugin.getConfig().getString("spawn.world", "").trim();

@@ -47,7 +47,9 @@ public class HotbarService {
    // Cached item templates
    public void reload() {
       this.infoName = this.messageService.component("hotbar.info.name", "<gradient:#F5F7FA:#D7DDE8>Lobby Info");
+
       this.infoLore = this.messageService.componentList("hotbar.info.lore", List.of("<#6E6E6E>- <#E8E8E8>View links and useful information"));
+
       this.selectorName = this.messageService.component("hotbar.selector.name", "<gradient:#FFE082:#FFB347>Server Selector");
       this.selectorLore = this.messageService.componentList("hotbar.selector.lore", List.of("<#6E6E6E>- <#E8E8E8>Choose where you want to play"));
       this.hiderNameShown = this.messageService.component("hotbar.hider.name.shown", "<gradient:#FF8FA3:#FFB3C1>Players <#E8E8E8>(All)");

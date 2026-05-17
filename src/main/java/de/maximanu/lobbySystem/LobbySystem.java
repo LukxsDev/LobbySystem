@@ -18,6 +18,7 @@ import de.maximanu.lobbySystem.service.SpawnService;
 import de.maximanu.lobbySystem.service.VisibilityService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LobbySystem extends JavaPlugin {
@@ -38,6 +39,7 @@ public final class LobbySystem extends JavaPlugin {
       // Core service wiring
       this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
       this.saveDefaultConfig();
+      this.reloadConfig(); // Reload config to apply saved values
       this.messageService = new MessageService(this);
       this.configService = new ConfigService(this, this.messageService);
       this.playerStateService = new PlayerStateService();
@@ -49,6 +51,11 @@ public final class LobbySystem extends JavaPlugin {
       this.hotbarService = new HotbarService(this);
       this.serverSelectorMenu = new ServerSelectorMenu(this, this.configService);
       this.lobbyPlayerService = new LobbyPlayerService(this);
+
+      // Check if spawn world is already loaded and reload spawn service
+      if (this.getServer().getWorld(this.configService.getSpawnWorldName()) != null) {
+         this.spawnService.reload();
+      }
 
       // Command and event registration
       this.registerCommand("spawn", new SpawnCommand(this));
@@ -71,7 +78,6 @@ public final class LobbySystem extends JavaPlugin {
 
    public void reloadPluginConfig() {
       this.reloadConfig();
-      this.saveDefaultConfig();
       this.messageService.reload();
       this.configService.reload();
       this.spawnService.reload();
@@ -84,6 +90,9 @@ public final class LobbySystem extends JavaPlugin {
          this.getLogger().warning("Command '" + name + "' is missing from plugin.yml.");
       } else {
          this.getCommand(name).setExecutor(executor);
+         if (executor instanceof TabCompleter) {
+            this.getCommand(name).setTabCompleter((TabCompleter) executor);
+         }
       }
    }
 

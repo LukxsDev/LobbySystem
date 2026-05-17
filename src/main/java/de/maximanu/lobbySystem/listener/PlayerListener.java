@@ -36,6 +36,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.world.WorldLoadEvent; // Import for WorldLoadEvent
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -87,6 +88,14 @@ public class PlayerListener implements Listener {
       this.plugin.getDoubleJumpService().clear(player, true);
       this.plugin.getBuildModeService().clearOnQuit(player);
       this.plugin.getPlayerStateService().clearVisibility(player.getUniqueId());
+   }
+
+   /** Reloads spawn location when the lobby world is loaded. */
+   @EventHandler
+   public void onWorldLoad(WorldLoadEvent event) {
+      if (event.getWorld().getName().equals(this.configService.getSpawnWorldName())) {
+         this.plugin.getSpawnService().reload();
+      }
    }
 
    // Protection and interaction rules

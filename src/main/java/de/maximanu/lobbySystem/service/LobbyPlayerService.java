@@ -7,6 +7,8 @@ import de.maximanu.lobbySystem.menu.ServerSelectorMenu;
 import java.util.Map;
 import java.util.UUID;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent; // Import für ClickEvent
+import net.kyori.adventure.text.format.TextColor; // Import für TextColor
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -84,9 +86,22 @@ public class LobbyPlayerService {
          return;
       }
 
-      player.sendMessage(this.messageService.formatComponent("links.website", "Website: {link}", Map.of("link", this.configService.getLink("website", "https://example.com"))));
-      player.sendMessage(this.messageService.formatComponent("links.discord", "Discord: {link}", Map.of("link", this.configService.getLink("discord", "https://discord.gg/example"))));
-      player.sendMessage(this.messageService.formatComponent("links.store", "Store: {link}", Map.of("link", this.configService.getLink("store", "https://store.example.com"))));
+      Map<String, String> links = this.configService.getLinks();
+
+      links.forEach((name, url) -> {
+         String displayName = name.substring(0, 1).toUpperCase() + name.substring(1);
+
+         Component linkComponent = Component.text(displayName, TextColor.color(0x7EE8FA)) // Farbe für den Link-Text
+                                            .clickEvent(ClickEvent.openUrl(url)); // Klick-Event, das die URL öffnet
+
+         Component message = Component.text("  ") // Einrückung
+                                      .append(Component.text("➤ ", TextColor.color(0x6E6E6E))) // Pfeil-Symbol
+                                      .append(linkComponent)
+                                      .append(Component.text(": ", TextColor.color(0x6E6E6E))) // Trennzeichen
+                                      .append(Component.text(url, TextColor.color(0xAAAAAA))); // Die URL selbst, optional
+
+         player.sendMessage(message);
+      });
    }
 
    public void togglePlayerHider(Player player) {

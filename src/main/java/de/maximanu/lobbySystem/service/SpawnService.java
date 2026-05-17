@@ -10,12 +10,13 @@ public class SpawnService {
 
    public SpawnService(LobbySystem plugin) {
       this.plugin = plugin;
-      this.reload();
+      // Spawn location is now loaded when the world is ready.
+      // this.reload(); // Removed this line
    }
 
+   /** Saves the given location as the new spawn point. */
    public void saveSpawnLocation(Location loc) {
       if (loc != null && loc.getWorld() != null) {
-         // Stored lobby location
          this.plugin.getConfig().set("spawn.world", loc.getWorld().getName());
          this.plugin.getConfig().set("spawn.x", loc.getX());
          this.plugin.getConfig().set("spawn.y", loc.getY());
@@ -28,14 +29,16 @@ public class SpawnService {
 
          this.plugin.saveConfig();
          this.plugin.getConfigService().reload();
-         this.reload();
+         this.reload(); // Reload after saving to update the cached location
       }
    }
 
+   /** Returns the cached spawn location. */
    public Location getSpawnLocation() {
       return this.cachedSpawnLocation == null ? null : this.cachedSpawnLocation.clone();
    }
 
+   /** Reloads the spawn location from the plugin configuration. */
    public void reload() {
       String worldName = this.plugin.getConfig().getString("spawn.world", "").trim();
       if (worldName.isEmpty()) {
